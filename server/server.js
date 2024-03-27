@@ -1,25 +1,28 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const mongoose = require('mongoose');
-
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-app.use(cors());
-app.use(bodyParser.json());
 
-// MongoDB connection
-mongoose.connect('mongodb://localhost:27017/todo-list', { useNewUrlParser: true, useUnifiedTopology: true });
-const connection = mongoose.connection;
-connection.once('open', () => {
-    console.log("MongoDB database connection established successfully");
+app.get('/hello', (req, res) => {
+    res.status(200).json({ mssg: "hello people" })
+ })
+
+ const port=5000;
+ //Listen for connections on the specified port
+ app.listen(port, ()=> { 
+    console.log(`Server is running at http://localhost:${port}`)
 });
 
-// Define Todo Schema and Model
+app.post('/todos', (req, res) => {
+    const { text, completed } = req.body;
+    const newTodo = new Todo({ text, completed });
+    newTodo.save()
+        .then(todo => res.json(todo))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
 
-// Define routes for CRUD operations
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port: ${PORT}`);
+// Read all Todos
+app.get('/todos', (req, res) => {
+    Todo.find()
+        .then(todos => res.json(todos))
+        .catch(err => res.status(400).json('Error: ' + err));
 });
