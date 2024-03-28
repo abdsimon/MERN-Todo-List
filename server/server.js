@@ -7,7 +7,7 @@ app.get('/hello', (req, res) => {
  })
 
  const port=5000;
- //Listen for connections on the specified port
+ 
  app.listen(port, ()=> { 
     console.log(`Server is running at http://localhost:${port}`)
 });
