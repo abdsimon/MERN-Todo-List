@@ -53,6 +53,17 @@ export default function App() {
           ))
         }
       </div>
+      <main className="container">
+   <form >  
+     <input type='text'  placeholder='Enter Todo'  name='todo'/>
+     <button>Create</button>
+  </form>
+
+  <ul>
+    {todo.map((item) =>(<li key={item}>{item}</li>))}
+      
+  </ul>
+    </main>
     </main>
   );
 }
