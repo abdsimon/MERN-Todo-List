@@ -47,7 +47,7 @@ export default function App() {
         <button className="form__button" type="submit">Create Todo</button>
       </form>
       <div className="todos">
-        {(todos.length > 0) &&
+    {(todos.length > 0) &&
           todos.map((todo) => (
             <Todo key={todo._id} todo={todo} setTodos={setTodos}   />
           ))
