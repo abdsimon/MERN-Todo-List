@@ -1,69 +1,31 @@
-import { useEffect, useState } from "react";
-import Todo from "./Todo";
+import {  useState } from "react";
+
 
 export default function App() {
   const [todos, setTodos] = useState([]);
-  const [content, setContent] = useState("");
+  
+  function onAdd(e) {
+    e.preventDefault(); // Corrected typo here
+    const data = e.target.simon.value
 
-  useEffect(() => {
-    async function getTodos() {
-      const res = await fetch("/api/todos");
-      const todos = await res.json();
+    console.log(data)
 
-      setTodos(todos);
-    }
-    getTodos();
-  }, []);
+    setTodos([...todos, data])
+    e.target.reset()
+   }
 
-  const createNewTodo = async (e) => {
-    e.preventDefault();
-    if (content.length > 3) {
-      const res = await fetch("/api/todos", {
-        method: "POST",
-        body: JSON.stringify({ todo: content }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const newTodo = await res.json();
-
-      setContent("");
-      setTodos([...todos, newTodo]);
-    }
-  }
-
+   console.log('todos: ', todos)
+ 
   return (
-    <main className="container">
-      <h1 className="title">Awesome Todos</h1>
-      <form className="form" onSubmit={createNewTodo}>
-        <input 
-        type="text"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Enter a new todo..."
-        className="form__input"
-        required 
-        />
-        <button className="form__button" type="submit">Create Todo</button>
-      </form>
-      <div className="todos">
-    {(todos.length > 0) &&
-          todos.map((todo) => (
-            <Todo key={todo._id} todo={todo} setTodos={setTodos}   />
-          ))
-        }
-      </div>
-      <main className="container">
-   <form >  
-     <input type='text'  placeholder='Enter Todo'  name='todo'/>
-     <button>Create</button>
-  </form>
-
-  <ul>
-    {todo.map((item) =>(<li key={item}>{item}</li>))}
-      
-  </ul>
-    </main>
-    </main>
+    <>
+    <form onSubmit={onAdd}>
+      <h1>Todo List</h1>
+      <input name='simon'/>
+      <button>Add</button>
+    </form>
+    <ul>
+      {todos.map((item)=><li key={item}>{item}</li>)}
+    </ul>
+    </>
   );
 }
