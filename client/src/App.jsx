@@ -6,12 +6,12 @@ export default function App() {
   
   function onAdd(e) {
     e.preventDefault(); // Corrected typo here
-    const data = e.target.simon.value
+    const data = e.target.simon.value //input value
 
     console.log(data)
 
     setTodos([...todos, data])
-    e.target.reset()
+    e.target.reset() //reset input fialed
    }
 
    console.log('todos: ', todos)
@@ -24,7 +24,7 @@ export default function App() {
       <button>Add</button>
     </form>
     <ul>
-      {todos.map((item)=><li key={item}>{item}</li>)}
+      {todos.map((item)=><li key={item}>{item}</li>)} 
     </ul>
     </>
   );
