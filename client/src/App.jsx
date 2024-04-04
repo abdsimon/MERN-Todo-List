@@ -16,6 +16,17 @@ export default function App() {
 
    console.log('todos: ', todos)
  
+// create delete handler
+
+function onDelete(){}
+
+
+
+
+// create update handler
+
+function onUpdate(){}
+
   return (
     <>
     <form onSubmit={onAdd}>
