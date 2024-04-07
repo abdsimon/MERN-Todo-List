@@ -1,5 +1,5 @@
 import {  useState } from "react";
-
+import React from "react";
 
 export default function App() {
   const [todos, setTodos] = useState([]);
@@ -8,7 +8,9 @@ export default function App() {
     e.preventDefault(); // Corrected typo here
     const data = e.target.simon.value //input value
 
-    console.log(data)
+    function App() {
+      const  [counter, setCounter] = useState(0)
+      const [saveItems,setSaveItems]=useState([])
 
     setTodos([...todos, data])
     e.target.reset() //reset input fialed
@@ -31,6 +33,7 @@ function onUpdate(){}
     <>
     <form onSubmit={onAdd}>
       <h1>Todo List</h1>
+      <h2>hey </h2>
       <input name='simon'/>
       <button>Add</button>
     </form>
