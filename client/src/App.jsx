@@ -1,46 +1,42 @@
-import {  useState } from "react";
-import React from "react";
+// App.js
+// eslint-disable-next-line no-unused-vars
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-export default function App() {
+function App() {
   const [todos, setTodos] = useState([]);
-  
-  function onAdd(e) {
-    e.preventDefault(); // Corrected typo here
-    const data = e.target.simon.value //input value
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
 
-    function App() {
-      const  [counter, setCounter] = useState(0)
-      const [saveItems,setSaveItems]=useState([])
+  useEffect(() => {
+    async function fetchTodos() {
+      try {
+        const response = await axios.get('/api/todos');
+        setTodos(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchTodos();
+  }, []);
 
-    setTodos([...todos, data])
-    e.target.reset() //reset input fialed
-   }
-
-   console.log('todos: ', todos)
-  
- 
-// create delete handler
-
-function onDelete(){}
-
-
-
-
-// create update handler
-
-function onUpdate(){}
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('/api/todos', {
+        title,
+        description,
+      });
+      setTodos([...todos, response.data]);
+      setTitle('');
+      setDescription('');
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
-    <>
-    <form onSubmit={onAdd}>
-      <h1>Todo List</h1>
-      <h2>hey </h2>
-      <input name='simon'/>
-      <button>Add</button>
-    </form>
-    <ul>
-      {todos.map((item)=><li key={item}>{item}</li>)} 
-    </ul>
-    </>
-  );
+   
 }
+
+export default App;
