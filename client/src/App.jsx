@@ -17,6 +17,7 @@ export default function App() {
    }
 
    console.log('todos: ', todos)
+  
  
 // create delete handler
 
