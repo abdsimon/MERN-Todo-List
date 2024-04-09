@@ -16,6 +16,7 @@ function App() {
       setTodos(response.data);
     } catch (error) {
       console.error('Error fetching todos:', error);
+      console.log(todos)
     }
   };
 
