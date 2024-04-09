@@ -51,7 +51,7 @@ function App() {
         <button onClick={handleAddTodo}>Add Todo</button>
       </div>
       <ul>
-        {todos.map(todo => (
+        {todos.map (todo => (
           <li key={todo.id}>
             {todo.title}
             <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
