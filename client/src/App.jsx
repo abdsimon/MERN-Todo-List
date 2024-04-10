@@ -6,13 +6,17 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
 
+  const [editTodoId, setEditTodoId] = useState()
+
+  const [saveEditTodo, setSaveEditTodo] = useState()
+
   useEffect(() => {
     fetchTodos();
   }, []);
 
   const fetchTodos = async () => {
     try {
-      const response = await axios.get('/api/todos');
+      const response = await axios.get('http://localhost:5000/api/todos');
       setTodos(response.data);
     } catch (error) {
       console.error('Error fetching todos:', error);
@@ -21,8 +25,10 @@ function App() {
   };
 
   const handleAddTodo = async () => {
+
+
     try {
-      const response = await axios.post('/api/todos', { title: newTodo });
+      const response = await axios.post('http://localhost:5000/api/todos', { title: newTodo });
       setTodos([...todos, response.data]);
       setNewTodo('');
     } catch (error) {
@@ -31,13 +37,38 @@ function App() {
   };
 
   const handleDeleteTodo = async (id) => {
+
+
     try {
-      await axios.delete(`/api/todos/${id}`);
+      await axios.delete(`http://localhost:5000/api/todos/${id}`);
+
+      
       setTodos(todos.filter(todo => todo.id !== id));
     } catch (error) {
       console.error('Error deleting todo:', error);
     }
   };
+
+  console.log('Edit ', editTodoId)
+
+  const handleEditTodo = async () => {
+    console.log("editing ", editTodoId)
+    console.log("new value", saveEditTodo)
+
+
+    try {
+    const payload =  await axios.put(`http://localhost:5000/api/todos/${editTodoId}`, {
+      title:saveEditTodo
+    });
+
+      
+      setTodos(payload.data);
+      setEditTodoId()
+      setSaveEditTodo('')
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+    }
+  }
 
   return (
     <div className="App">
@@ -54,8 +85,18 @@ function App() {
       <ul>
         {todos.map (todo => (
           <li key={todo.id}>
-            {todo.title}
+           {todo.id ===  editTodoId ?
+           <input defaultValue={todo.title}
+           onChange={(e) => setSaveEditTodo(e.target.value)}
+
+           />:
+
+           <p>{todo.title}</p>}
             <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
+         {todo.id ===  editTodoId ?
+          <button className='Save' onClick={handleEditTodo}>Save</button> :
+          <button className='Edit' onClick={() => setEditTodoId(todo.id)}>Edit</button>}
+
           </li>
         ))}
       </ul>

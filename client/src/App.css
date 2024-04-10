@@ -30,13 +30,37 @@ ul {
 
 li {
   margin-top: 10px;
+  display: flex;
+  justify-content: center;
 }
 
 li button {
   margin-left: 10px;
-  background-color: #dc3545;
+  background-color: #db311e;
 }
+
+li .Edit{
+  margin-left: 10px;
+  background-color: #35dcbb;
+}
+
+li .Save{
+  margin-left: 10px;
+  background-color: #dcd135;
+}
+
+
+li .Save:hover{
+  margin-left: 10px;
+  background-color: #dcd13559;
+}
+
+
 
 li button:hover {
   background-color: #c82333;
+}
+
+li .Edit:hover {
+  background-color: #35dcbb73;
 }
