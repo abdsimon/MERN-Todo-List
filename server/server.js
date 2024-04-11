@@ -3,62 +3,55 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose =require('mongoose')
 const cors = require('cors');
-const app = express();
+require('dotenv').config();
 
+const Todo=require('./Todo')
+
+const app = express();
 
 
 // Middleware
 app.use(bodyParser.json());
 app.use(cors());
 
-// Mock data
-let todos = [];
+
+mongoose.connect(process.env.MONG_URI,{dbName:"todoApp"})
+  .then(() => {
+    console.log("connected to MongoDB");
+  })
+  .catch((err) => console.error(err));
 
 // Routes
-app.get('/api/todos', (req, res) => {
+app.get('/api/todos', async (req, res) =>  {
+  
+  const todos= await  Todo.find()
   res.json(todos);
 });
 
-app.post('/api/todos', (req, res) => {
-  const { title, description } = req.body;
-  const newTodo = { id: Date.now(), title, description };
-  todos.push(newTodo);
+app.post('/api/todos', async (req, res) => {
+  const { title } = req.body;
+  const newTodo =   new Todo({title:title})
+  await  newTodo.save();
   res.status(201).json(newTodo);
 });
 
-app.delete('/api/todos/:id', (req, res) => {
+app.delete('/api/todos/:id', async (req, res) => {
   const { id } = req.params;
-  todos = todos.filter(todo => todo.id !== parseInt(id));
+  await  Todo.findByIdAndDelete(id);
   res.status(200).json({ message: 'Todo deleted successfully' });
 
 
 });
 
-app.put('/api/todos/:id', (req, res) => {
+app.put('/api/todos/:id', async (req, res) => {
   const { id } = req.params;
-
   const {title} = req.body
-
-  console.log('Client data ==> ',id, title)
-
-  console.log('Todo array ==> ',todos)
-
-  const newTodos = todos.map((obj)=>{
-   if(obj.id == id){
-    obj.title = title 
-   }
-     return obj
-  })
-   todos = newTodos
-res.json(newTodos)
+  console.log(id);
+  console.log(title);
+await Todo.findByIdAndUpdate(id ,{$set:{title:title}})
+const  updatedTodo = await Todo.find()
+res.json(updatedTodo)
 });
-
-mongoose.connect(process.env.MONG_URI)
-mongoose.connect()
-.then (() => {console.log("connected to MongoDB")
-
-})
-.catch((err)=> console.error(err));
 
 // Start server
 

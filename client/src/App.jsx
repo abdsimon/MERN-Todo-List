@@ -43,7 +43,7 @@ function App() {
       await axios.delete(`http://localhost:5000/api/todos/${id}`);
 
       
-      setTodos(todos.filter(todo => todo.id !== id));
+      setTodos(todos.filter(todo => todo._id !== id));
     } catch (error) {
       console.error('Error deleting todo:', error);
     }
@@ -61,7 +61,7 @@ function App() {
       title:saveEditTodo
     });
 
-      
+      console.log(payload.data)
       setTodos(payload.data);
       setEditTodoId()
       setSaveEditTodo('')
@@ -84,18 +84,18 @@ function App() {
       </div>
       <ul>
         {todos.map (todo => (
-          <li key={todo.id}>
-           {todo.id ===  editTodoId ?
+          <li key={todo._id}>
+           {todo._id ===  editTodoId ?
            <input defaultValue={todo.title}
            onChange={(e) => setSaveEditTodo(e.target.value)}
 
            />:
 
            <p>{todo.title}</p>}
-            <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
-         {todo.id ===  editTodoId ?
+            <button onClick={() => handleDeleteTodo(todo._id)}>Delete</button>
+         {todo._id ===  editTodoId ?
           <button className='Save' onClick={handleEditTodo}>Save</button> :
-          <button className='Edit' onClick={() => setEditTodoId(todo.id)}>Edit</button>}
+          <button className='Edit' onClick={() => setEditTodoId(todo._id)}>Edit</button>}
 
           </li>
         ))}
