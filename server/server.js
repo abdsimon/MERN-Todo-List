@@ -1,14 +1,16 @@
 // server.js
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose =require('mongoose')
 const cors = require('cors');
 const app = express();
-const PORT = process.env.PORT || 5000;
+
 
 
 // Middleware
 app.use(bodyParser.json());
 app.use(cors());
+
 // Mock data
 let todos = [];
 
@@ -51,8 +53,15 @@ app.put('/api/todos/:id', (req, res) => {
 res.json(newTodos)
 });
 
+mongoose.connect(process.env.MONG_URI)
+mongoose.connect()
+.then (() => {console.log("connected to MongoDB")
+
+})
+.catch((err)=> console.error(err));
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on port `, process.env.PORT);
 });
