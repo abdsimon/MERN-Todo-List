@@ -39,7 +39,8 @@ function App() {
   const handleDeleteTodo = async (id) => {
 
     try {
-      await axios.delete(`http://localhost:5000/api/todos/${id}`); si
+      await axios.delete(`http://localhost:5000/api/todos/${id}`); s
+
       on
 
       
